@@ -13,43 +13,40 @@ public class ArrayDequeCreator extends PriorityQueue<String> {
         arrayDeque.add(secondQueue.poll());
         arrayDeque.add(secondQueue.poll());
 
+        boolean isAddElementToFirstQueue = true;
+        boolean isAddElementToSecondQueue = false;
+        boolean isTakeTwoElementsFromFirstQueue = false;
+        boolean isTakeTwoElementsFromSecondQueue = false;
+
         while (!firstQueue.isEmpty() && !secondQueue.isEmpty()) {
-            Integer firstItem = arrayDeque.pollFirst();
-            if (firstItem != null) {
-                firstQueue.add(firstItem);
-            } else {
-                break;
+            if(isAddElementToFirstQueue){
+                firstQueue.add(arrayDeque.pollLast());
+                isAddElementToFirstQueue = false;
+                isTakeTwoElementsFromFirstQueue = true;
             }
 
-            Integer secondItem = arrayDeque.pollFirst();
-            if (secondItem != null) {
-                secondQueue.add(secondItem);
-            } else {
-                break;
+            if(isTakeTwoElementsFromFirstQueue){
+                arrayDeque.add(firstQueue.poll());
+                arrayDeque.add(firstQueue.poll());
+                isTakeTwoElementsFromFirstQueue = false;
+                isAddElementToSecondQueue = true;
             }
 
-            if (!firstQueue.isEmpty()) {
-                arrayDeque.add(firstQueue.poll());
-            } else {
-                break;
+            if(isAddElementToSecondQueue){
+                secondQueue.add(arrayDeque.pollLast());
+                isAddElementToSecondQueue = false;
+                isTakeTwoElementsFromSecondQueue = true;
             }
-            if (!firstQueue.isEmpty()) {
-                arrayDeque.add(firstQueue.poll());
-            } else {
-                break;
-            }
-            if (!secondQueue.isEmpty()) {
+
+            if(isTakeTwoElementsFromSecondQueue){
                 arrayDeque.add(secondQueue.poll());
-            } else {
-                break;
-            }
-            if (!secondQueue.isEmpty()) {
                 arrayDeque.add(secondQueue.poll());
-            } else {
-                break;
+                isTakeTwoElementsFromSecondQueue = false;
+                isAddElementToFirstQueue = true;
             }
+
+
         }
-
 
         return arrayDeque;
     }
